@@ -1,5 +1,7 @@
 import { createContainer, Lifetime, asClass, asValue } from 'awilix';
 import express, { Router } from 'express';
+import winston from 'winston';
+import Logger from './helpers/logger';
 import Server from './config/server';
 import config from './config/env';
 import db from './config/database';
@@ -9,6 +11,8 @@ const router = Router();
 
 container.register({
   config: asValue(config),
+  winston: asValue(winston),
+  logger: asClass(Logger),
   express: asValue(express),
   router: asValue(router),
 });
@@ -30,8 +34,6 @@ container.loadModules(['modules/**/*Dao.js'], {
   },
   cwd: __dirname,
 });
-
-
 
 // Resolve the registered routes
 const routesName = Object.keys(container.registrations).filter((item) =>

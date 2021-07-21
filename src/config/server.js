@@ -1,9 +1,13 @@
 import cors from 'cors';
-
 class Server {
-  constructor({ express }) {
+  constructor({ express, logger }) {
     this.app = express();
     this.initializeBodyParsing(express);
+
+    this.app.use((err, req, res, next) => {
+      err.statusCode = (err.statusCode) ? err.statusCode : 500;
+      logger.log(err.statusCode, err)
+    })
   }
 
   initializeBodyParsing(express) {
