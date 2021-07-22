@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -8,79 +9,94 @@ datasource db {
 }
 
 model Attendance {
-  id                Int                 @id
-  session_start     DateTime            @db.DateTime(0)
-  session_end       DateTime            @db.DateTime(0)
-  status            Attendance_status   @default(opened)
+  id                 Int                 @id
+  session_start      DateTime            @db.DateTime(0)
+  session_end        DateTime            @db.DateTime(0)
+  status             Attendance_status   @default(opened)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
   studentAttendances StudentAttendance[]
+
+  @@map(name: "Attendances")
 }
 
 model Class {
-  id         Int          @id
-  name       String?      @db.VarChar(255)
-  course     String?      @db.VarChar(255)
-  date_start DateTime?    @db.DateTime(0)
-  end_start  DateTime?    @db.DateTime(0)
+  id          Int          @id @default(autoincrement())
+  name        String?      @db.VarChar(255)
+  course      String?      @db.VarChar(255)
+  date_start  DateTime?    @db.DateTime(0)
+  date_end    DateTime?    @db.DateTime(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   classTutors ClassTutor[]
   students    Student[]
+
+  @@map(name: "Classes")
 }
 
 model ClassTutor {
   class_id Int
-  tutor_id Int
-  class    Class @relation(fields: [class_id], references: [id])
-  tutor    Tutor @relation(fields: [tutor_id], references: [id])
+  tutor_id String
+  class    Class  @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tutor    Tutor  @relation(fields: [tutor_id], references: [id], onUpdate: Cascade)
 
   @@id([class_id, tutor_id])
   @@index([class_id], name: "fk_ClassTutor_Class_id")
   @@index([tutor_id], name: "fk_ClassTutor_Tutor_id")
+  @@map(name: "ClassTutors")
 }
 
 model Student {
-  id                Int                 @unique
-  user_id           Int
+  id                String              @unique
   class_id          Int
-  class             Class               @relation(fields: [class_id], references: [id])
-  user              User                @relation(fields: [user_id], references: [id])
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  class             Class               @relation(fields: [class_id], references: [id], onUpdate: Cascade)
+  user              User                @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   studentAttendance StudentAttendance[]
 
-  @@id([id, user_id, class_id])
+  @@id([id, class_id])
   @@index([class_id], name: "fk_StudentClass_id")
-  @@index([user_id], name: "fk_StudentUser_id")
+  @@map(name: "Students")
 }
 
 model StudentAttendance {
-  student_id      Int
-  studentUser_id  Int
+  student_id      String
   studentClass_id Int
   attendance_id   Int
-  attendance      Attendance @relation(fields: [attendance_id], references: [id])
-  student         Student    @relation(fields: [student_id, studentUser_id, studentClass_id], references: [id, user_id, class_id])
+  attendance      Attendance @relation(fields: [attendance_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  student         Student    @relation(fields: [student_id, studentClass_id], references: [id, class_id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@id([student_id, studentUser_id, studentClass_id, attendance_id])
+  @@id([student_id, studentClass_id, attendance_id])
   @@index([attendance_id], name: "fk_StudentAttendance_Attendance_id")
-  @@index([student_id, studentUser_id, studentClass_id], name: "fk_StudentAttendance_Student_id")
+  @@index([student_id, studentClass_id], name: "fk_StudentAttendance_Student_id")
+  @@map(name: "StudentAttendances")
 }
 
 model Tutor {
-  id         Int          @unique
-  user_id    Int
-  User       User         @relation(fields: [user_id], references: [id])
+  id          String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  User        User         @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   classTutors ClassTutor[]
 
-  @@id([id, user_id])
-  @@index([user_id], name: "fk_TutorUser_id")
+  @@id([id])
+  @@map(name: "Tutors")
 }
 
 model User {
-  id        Int        @id
+  id        String     @id @default(uuid())
   firstname String     @db.VarChar(255)
   lastname  String     @db.VarChar(255)
   email     String     @db.VarChar(255)
   password  String     @db.VarChar(255)
   role      User_role? @default(scholar)
-  students   Student[]
-  tutors    Tutor[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  student   Student?
+  tutor     Tutor?
+
+  @@map(name: "Users")
 }
 
 enum Attendance_status {
