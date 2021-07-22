@@ -9,6 +9,7 @@ const router = Router();
 
 container.register({
   config: asValue(config),
+  db: asValue(db),
   express: asValue(express),
   router: asValue(router),
 });
@@ -30,8 +31,6 @@ container.loadModules(['modules/**/*Dao.js'], {
   },
   cwd: __dirname,
 });
-
-
 
 // Resolve the registered routes
 const routesName = Object.keys(container.registrations).filter((item) =>

@@ -1,9 +1,10 @@
 import cors from 'cors';
 
 class Server {
-  constructor({ express }) {
+  constructor({ express, routes }) {
     this.app = express();
     this.initializeBodyParsing(express);
+    this.initializeApplicationRouter(routes);
   }
 
   initializeBodyParsing(express) {
@@ -17,8 +18,14 @@ class Server {
     );
   }
 
+  initializeApplicationRouter(routes) {
+    this.app.use(routes);
+  }
+
   listen(port) {
-    this.app.listen(port, () => console.log(`application started on port: ${port}`))
+    this.app.listen(port, () =>
+      console.log(`application started on port: ${port}`)
+    );
   }
 }
 
