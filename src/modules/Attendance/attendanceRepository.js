@@ -18,6 +18,35 @@ class AttendanceRepository {
       };
     }
   }
+
+  async createAttendance(attendanceEntity) {
+    try {
+      return await this.prisma.attendance.create({ data: attendanceEntity });
+    } catch {
+      (e) => {
+        throw e;
+      };
+    } finally {
+      async () => {
+        await prisma.$disconnect();
+      };
+    }
+  }
+
+  async createStudentAttendance(studentAttendanceEntity) {
+    console.log("woh", studentAttendanceEntity)
+    try {
+      return await this.prisma.studentAttendance.create({ data: studentAttendanceEntity });
+    } catch {
+      (e) => {
+        throw e;
+      };
+    } finally {
+      async () => {
+        await prisma.$disconnect();
+      };
+    }
+  }
 }
 
 export default AttendanceRepository;

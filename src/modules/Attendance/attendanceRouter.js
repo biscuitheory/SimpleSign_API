@@ -6,7 +6,8 @@ class AttendanceRouter {
   }
 
   initializeRoutes({ attendanceController }) {
-    this.router.route('/attendances').get(attendanceController.getAll);
+    this.router.route('/attendances').get(attendanceController.getAll).post(attendanceController.registerAttendance);
+    this.router.route('/student-attendances').post(attendanceController.registerStudentAttendance);
   }
 }
 
