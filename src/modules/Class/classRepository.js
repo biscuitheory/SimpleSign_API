@@ -19,6 +19,22 @@ class ClassRepository {
       };
     }
   }
+
+  async createClass(classEntity) {
+    try {
+      return await this.prisma.class.create({
+        data: classEntity
+      });
+    } catch {
+      (e) => {
+        throw e;
+      };
+    } finally {
+      async () => {
+        await prisma.$disconnect();
+      };
+    }
+  }
 }
 
 export default ClassRepository;

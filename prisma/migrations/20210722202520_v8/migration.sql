@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `Attendances` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `session_start` DATETIME(0) NOT NULL,
     `session_end` DATETIME(0) NOT NULL,
     `status` ENUM('opened', 'closed') NOT NULL DEFAULT 'opened',
@@ -15,8 +15,8 @@ CREATE TABLE `Classes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255),
     `course` VARCHAR(255),
-    `date_start` DATETIME(0),
-    `date_end` DATETIME(0),
+    `date_start` DATE,
+    `date_end` DATE,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -42,7 +42,7 @@ CREATE TABLE `Students` (
 
     UNIQUE INDEX `Students.id_unique`(`id`),
     INDEX `fk_StudentClass_id`(`class_id`),
-    PRIMARY KEY (`id`, `class_id`)
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable

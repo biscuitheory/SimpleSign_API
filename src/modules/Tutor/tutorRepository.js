@@ -18,6 +18,35 @@ class TutorRepository {
       };
     }
   }
+
+  async createTutor(tutorEntity) {
+    try {
+      return await this.prisma.tutor.create({ data: tutorEntity });
+    } catch {
+      (e) => {
+        throw e;
+      };
+    } finally {
+      async () => {
+        await prisma.$disconnect();
+      };
+    }
+  }
+
+  async createClassTutor(classTutorEntity) {
+    // console.log({classTutorEntity})
+    try {
+      return await this.prisma.classTutor.create({ data: classTutorEntity });
+    } catch {
+      (e) => {
+        throw e;
+      };
+    } finally {
+      async () => {
+        await prisma.$disconnect();
+      };
+    }
+  }
 }
 
 export default TutorRepository;

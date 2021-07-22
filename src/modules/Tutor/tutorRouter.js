@@ -6,7 +6,8 @@ class TutorRouter {
   }
 
   initializeRoutes({ tutorController }) {
-    this.router.route('/tutors').get(tutorController.getAll);
+    this.router.route('/tutors').get(tutorController.getAll).post(tutorController.registerTutor);
+    this.router.route('/classtutors').get(tutorController.getAll).post(tutorController.registerClassTutor);
   }
 }
 

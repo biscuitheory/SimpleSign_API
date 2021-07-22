@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Attendance {
-  id                 Int                 @id
+  id                 Int                 @id @default(autoincrement())
   session_start      DateTime            @db.DateTime(0)
   session_end        DateTime            @db.DateTime(0)
   status             Attendance_status   @default(opened)
@@ -24,8 +24,8 @@ model Class {
   id          Int          @id @default(autoincrement())
   name        String?      @db.VarChar(255)
   course      String?      @db.VarChar(255)
-  date_start  DateTime?    @db.DateTime(0)
-  date_end    DateTime?    @db.DateTime(0)
+  date_start  DateTime?    @db.Date
+  date_end    DateTime?    @db.Date
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   classTutors ClassTutor[]
@@ -48,14 +48,14 @@ model ClassTutor {
 
 model Student {
   id                String              @unique
-  class_id          Int
+  class_id          Int                 
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   class             Class               @relation(fields: [class_id], references: [id], onUpdate: Cascade)
   user              User                @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   studentAttendance StudentAttendance[]
 
-  @@id([id, class_id])
+  @@id([id])
   @@index([class_id], name: "fk_StudentClass_id")
   @@map(name: "Students")
 }

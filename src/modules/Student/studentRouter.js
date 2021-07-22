@@ -6,7 +6,12 @@ class StudentRouter {
   }
 
   initializeRoutes({ studentController }) {
-    this.router.route('/students').get(studentController.getAll);
+    this.router
+      .route('/students')
+      .get(studentController.getAllStudents)
+      .post(studentController.registerStudent);
+
+    // this.router.route('/students/login').post(userController.loginStudents);
   }
 }
 
