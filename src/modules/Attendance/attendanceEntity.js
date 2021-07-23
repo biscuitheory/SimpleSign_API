@@ -5,7 +5,7 @@ class AttendanceEntity {
     this.status = status;
   }
 
-  validateClass() {
+  validateSession() {
     if (!this.session_start || !this.session_end || !this.status) return false;
     else return true;
   }

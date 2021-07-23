@@ -1,17 +1,21 @@
 import { createContainer, Lifetime, asClass, asValue } from 'awilix';
 import express, { Router } from 'express';
-import Server from './config/server';
-import config from './config/env';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import csurf from 'csurf';
+import winston from 'winston';
+import morgan from 'morgan';
+import Logger from './helpers/logger';
+import { ApiError, handleError } from './helpers/error';
+import Server from './config/server';
+import config from './config/env';
 import db from './config/database';
 
 const container = createContainer();
 const router = Router();
-const csrfMiddleware = csurf({cookie: true});
+const csrfMiddleware = csurf({ cookie: true });
 
 container.register({
   config: asValue(config),
@@ -21,6 +25,11 @@ container.register({
   cookieParser: asValue(cookieParser),
   jwt: asValue(jwt),
   csrfMiddleware: asValue(csrfMiddleware),
+  ApiError: asValue(ApiError),
+  handleError: asValue(handleError),
+  morgan: asValue(morgan),
+  winston: asValue(winston),
+  logger: asClass(Logger),
   express: asValue(express),
   router: asValue(router),
 });
