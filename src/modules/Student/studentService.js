@@ -13,7 +13,12 @@ class StudentService {
 
   async registerStudent(studentData) {
     const studentEntity = new StudentEntity(studentData);
-    
+    if (!studentEntity.validateForm())
+      throw new this.apiError(
+        400,
+        'User entity validation error: Missing parameters'
+      );
+
     const newStudent = await this.studentRepo.createStudent(studentEntity);
     return new StudentEntity(newStudent);
   }

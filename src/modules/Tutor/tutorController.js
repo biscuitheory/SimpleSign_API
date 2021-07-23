@@ -3,33 +3,30 @@ class TutorController {
     this.tutorService = tutorService;
   }
 
-  getAll = async ({ res }) => {
+  getAll = async ({ res, next }) => {
     try {
       let tutors = await this.tutorService.getAll();
       res.status(200).json(tutors);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   };
 
-  registerTutor = async (req, res) => {
+  registerTutor = async (req, res, next) => {
     try {
       const tutor = await this.tutorService.registerTutor({ ...req.body });
       res.status(201).json(tutor);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   }
 
-  registerClassTutor = async (req, res) => {
+  registerClassTutor = async (req, res, next) => {
     try {
       const classTutor = await this.tutorService.registerClassTutor({ ...req.body });
       res.status(201).json(classTutor);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   }
 }

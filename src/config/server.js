@@ -1,11 +1,15 @@
 import cors from 'cors';
 
 class Server {
-  constructor({ express, routes, cookieParser, csrfMiddleware }) {
+  constructor({ express, routes, cookieParser, csrfMiddleware, handleError }) {
     this.app = express();
     this.initializeBodyParsing(express);
     this.initializeMiddlewares({ cookieParser, csrfMiddleware });
     this.initializeApplicationRouter(routes);
+
+    this.app.use((err, req, res, next) => {
+      handleError(err, res);
+    });
   }
 
   initializeBodyParsing(express) {

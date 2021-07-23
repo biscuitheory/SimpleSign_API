@@ -1,8 +1,9 @@
 import ClassEntity from './classEntity';
 
 class ClassService {
-  constructor({ classRepository }) {
+  constructor({ classRepository, ApiError }) {
     this.classRepo = classRepository;
+    this.apiError = ApiError;
   }
 
   async getAll() {
@@ -14,8 +15,10 @@ class ClassService {
   async registerClass(classData) {
     const classEntity = new ClassEntity(classData);
     if (!classEntity.validateClass())
-      throw new Error('Class entity validation error: Missing parameters');
-    
+      throw new this.apiError(
+        400,
+        'User entity validation error: Missing parameters'
+      );
     const newClass = await this.classRepo.createClass(classEntity);
     return new ClassEntity(newClass);
   }

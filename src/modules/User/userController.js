@@ -4,27 +4,25 @@ class UserController {
     this.jwt = jwtService;
   }
 
-  getAllUsers = async ({ res }) => {
+  getAllUsers = async ({ res, next }) => {
     try {
       let users = await this.userService.getAllUsers();
       res.status(200).json(users);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   };
 
-  registerUser = async (req, res) => {
+  registerUser = async (req, res, next) => {
     try {
       const user = await this.userService.registerUser({ ...req.body });
       res.status(201).json(user);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   };
 
-  loginAdmin = async (req, res) => {
+  loginAdmin = async (req, res, next) => {
     try {
       const user = await this.userService.loginAdmin({ ...req.body });
       const token = await this.jwt.generateToken({
@@ -34,20 +32,18 @@ class UserController {
       res.cookie('auth-cookie', token, { expires: false, httpOnly: true });
       res.status(201).json(user);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   };
 
-  loginStudent = async (req, res) => {
+  loginStudent = async (req, res, next) => {
     try {
       const student = await this.userService.loginStudent({ ...req.body });
       const token = await this.jwt.generateToken({ id: student.id });
       res.cookie('auth-cookie', token, { expires: false, httpOnly: true });
       res.status(201).json(student);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
   };
 

@@ -7,11 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import csurf from 'csurf';
+import { ApiError, handleError } from './helpers/error';
 import db from './config/database';
 
 const container = createContainer();
 const router = Router();
-const csrfMiddleware = csurf({cookie: true});
+const csrfMiddleware = csurf({ cookie: true });
 
 container.register({
   config: asValue(config),
@@ -21,6 +22,8 @@ container.register({
   cookieParser: asValue(cookieParser),
   jwt: asValue(jwt),
   csrfMiddleware: asValue(csrfMiddleware),
+  ApiError: asValue(ApiError),
+  handleError: asValue(handleError),
   express: asValue(express),
   router: asValue(router),
 });

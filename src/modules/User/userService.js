@@ -1,8 +1,9 @@
 import UserEntity from './userEntity';
 
 class UserService {
-  constructor({ userRepository }) {
+  constructor({ userRepository, ApiError }) {
     this.userRepo = userRepository;
+    this.apiError = ApiError;
   }
 
   async getAllUsers() {
@@ -13,7 +14,10 @@ class UserService {
   async registerUser(userData) {
     const userEntity = new UserEntity(userData);
     if (!userEntity.validateForm())
-      throw new Error('User entity validation error: Missing parameters');
+      throw new this.apiError(
+        400,
+        'User entity validation error: Missing parameters'
+      );
 
     const newUser = await this.userRepo.createUser(userEntity);
     return new UserEntity(newUser);
@@ -22,15 +26,18 @@ class UserService {
   async loginUser(userData) {
     const userEntity = new UserEntity(userData);
     if (!userEntity.validateUser())
-      throw new Error('User entity validation error: Missing parameters');
+      throw new this.apiError(
+        400,
+        'User entity validation error: Missing parameters'
+      );
     const user = await this.userRepo.findByEmail(userEntity);
-    if (!user) throw new Error('Account do not exist');
+    if (!user) throw new this.apiError(400, 'Account do not exist');
 
     const passwordMatch = await this.userRepo.compareHash(
       userEntity.password,
       user.password
     );
-    if (!passwordMatch) throw new Error('Password do not match');
+    if (!passwordMatch) throw new this.apiError(400, 'Password do not match');
 
     return new UserEntity(user);
   }

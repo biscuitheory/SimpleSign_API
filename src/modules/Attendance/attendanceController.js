@@ -3,35 +3,35 @@ class AttendanceController {
     this.attendanceService = attendanceService;
   }
 
-  getAll = async ({ res }) => {
+  getAll = async ({ res, next }) => {
     try {
       let attendances = await this.attendanceService.getAll();
       res.status(200).json(attendances);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next();
     }
   };
 
-  registerAttendance = async (req, res) => {
+  registerAttendance = async (req, res, next) => {
     try {
-      const attendance = await this.attendanceService.registerAttendance({ ...req.body });
+      const attendance = await this.attendanceService.registerAttendance({
+        ...req.body,
+      });
       res.status(201).json(attendance);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next(err);
     }
-  }
+  };
 
-  registerStudentAttendance = async (req, res) => {
+  registerStudentAttendance = async (req, res, next) => {
     try {
-      const studentAttendance = await this.attendanceService.registerStudentAttendance({ ...req.body });
+      const studentAttendance =
+        await this.attendanceService.registerStudentAttendance({ ...req.body });
       res.status(201).json(studentAttendance);
     } catch (err) {
-      console.error(err);
-      res.status(400).json(err.message);
+      next();
     }
-  }
+  };
 }
 
 export default AttendanceController;
