@@ -6,7 +6,6 @@ class AttendanceRepository {
   async findAll() {
     try {
       const allAttendances = await this.prisma.attendance.findMany();
-      console.log({allAttendances});
       return allAttendances;
     } catch {
       (e) => {
@@ -34,7 +33,6 @@ class AttendanceRepository {
   }
 
   async createStudentAttendance(studentAttendanceEntity) {
-    console.log("woh", studentAttendanceEntity)
     try {
       return await this.prisma.studentAttendance.create({ data: studentAttendanceEntity });
     } catch {

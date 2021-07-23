@@ -26,7 +26,6 @@ class UserRepository {
     userEntity.id = this.uuidv4();
     const salt = this.bcrypt.genSaltSync(10);
     userEntity.password = this.bcrypt.hashSync(userEntity.password, salt);
-    // console.log('useers', userEntity);
     try {
       return await this.prisma.user.create({ data: userEntity });
     } catch {
@@ -39,6 +38,22 @@ class UserRepository {
       };
     }
   }
+
+  async findByEmail(userEntity) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email: userEntity.email,
+      },
+    });
+  }
+
+  async findById(userId) {
+    // return await this.userDao.findByPk(userId);
+    return await this.prisma.user.findUnique({ where: { id: userId } });
+  }
+
+  compareHash = async (password, hash) =>
+    await this.bcrypt.compareSync(password, hash);
 }
 
 export default UserRepository;

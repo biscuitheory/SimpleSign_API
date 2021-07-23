@@ -1,13 +1,19 @@
 class TutorRouter {
-  constructor({ router, tutorController }) {
+  constructor({ router, auth, tutorController }) {
     this.router = router;
-    this.initializeRoutes({ tutorController });
+    this.initializeRoutes({ auth, tutorController });
     return this.router;
   }
 
-  initializeRoutes({ tutorController }) {
-    this.router.route('/tutors').get(tutorController.getAll).post(tutorController.registerTutor);
-    this.router.route('/classtutors').get(tutorController.getAll).post(tutorController.registerClassTutor);
+  initializeRoutes({ auth, tutorController }) {
+    this.router
+      .route('/tutors')
+      .get(tutorController.getAll)
+      .post(auth.isAdmin, tutorController.registerTutor);
+    this.router
+      .route('/classtutors')
+      .get(tutorController.getAll)
+      .post(auth.isAdmin, tutorController.registerClassTutor);
   }
 }
 

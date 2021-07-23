@@ -22,6 +22,7 @@ class StudentRepository {
   }
 
   async createStudent(studentEntity) {
+    console.log({studentEntity})
     try {
       return await this.prisma.student.create({
         data: studentEntity
