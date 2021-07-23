@@ -1,14 +1,27 @@
 import cors from 'cors';
 
 class Server {
-  constructor({ express, routes, cookieParser, csrfMiddleware, handleError }) {
+  constructor({
+    express,
+    routes,
+    cookieParser,
+    csrfMiddleware,
+    handleError,
+    logger,
+    morgan,
+  }) {
     this.app = express();
     this.initializeBodyParsing(express);
-    this.initializeMiddlewares({ cookieParser, csrfMiddleware });
+    this.initializeMiddlewares({
+      cookieParser,
+      csrfMiddleware,
+      morgan,
+      logger,
+    });
     this.initializeApplicationRouter(routes);
 
     this.app.use((err, req, res, next) => {
-      handleError(err, res);
+      handleError(err, res, logger);
     });
   }
 
@@ -23,8 +36,9 @@ class Server {
     );
   }
 
-  initializeMiddlewares({ cookieParser, csrfMiddleware }) {
+  initializeMiddlewares({ cookieParser, csrfMiddleware, morgan, logger }) {
     this.app.use(cookieParser());
+    this.app.use(morgan('combined', { stream: logger.stream }));
     // this.app.get('/csrf', csrfMiddleware, (req, res) => {
     //   res.status(200).json(req.csrfToken());
     // });
