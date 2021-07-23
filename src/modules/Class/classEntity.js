@@ -1,6 +1,5 @@
 class ClassEntity {
-  constructor({ id, name, course, date_start, date_end }) {
-    this.id = id;
+  constructor({ name, course, date_start, date_end }) {
     this.name = name;
     this.course = course;
     this.date_start = date_start;

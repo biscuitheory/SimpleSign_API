@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `Attendances` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `session_start` DATETIME(0) NOT NULL,
     `session_end` DATETIME(0) NOT NULL,
     `status` ENUM('opened', 'closed') NOT NULL DEFAULT 'opened',
@@ -15,8 +15,8 @@ CREATE TABLE `Classes` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255),
     `course` VARCHAR(255),
-    `date_start` DATETIME(0),
-    `date_end` DATETIME(0),
+    `date_start` DATE,
+    `date_end` DATE,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -42,18 +42,19 @@ CREATE TABLE `Students` (
 
     UNIQUE INDEX `Students.id_unique`(`id`),
     INDEX `fk_StudentClass_id`(`class_id`),
-    PRIMARY KEY (`id`, `class_id`)
+    PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `StudentAttendances` (
     `student_id` VARCHAR(191) NOT NULL,
-    `studentClass_id` INTEGER NOT NULL,
+    `class_id` INTEGER NOT NULL,
     `attendance_id` INTEGER NOT NULL,
 
+    INDEX `fk_StudentAttendance_Student_id`(`student_id`),
+    INDEX `fk_StudentAttendance_Class_id`(`class_id`),
     INDEX `fk_StudentAttendance_Attendance_id`(`attendance_id`),
-    INDEX `fk_StudentAttendance_Student_id`(`student_id`, `studentClass_id`),
-    PRIMARY KEY (`student_id`, `studentClass_id`, `attendance_id`)
+    PRIMARY KEY (`student_id`, `class_id`, `attendance_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -77,6 +78,7 @@ CREATE TABLE `Users` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Users.email_unique`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -96,7 +98,10 @@ ALTER TABLE `Students` ADD FOREIGN KEY (`id`) REFERENCES `Users`(`id`) ON DELETE
 ALTER TABLE `StudentAttendances` ADD FOREIGN KEY (`attendance_id`) REFERENCES `Attendances`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `StudentAttendances` ADD FOREIGN KEY (`student_id`, `studentClass_id`) REFERENCES `Students`(`id`, `class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `StudentAttendances` ADD FOREIGN KEY (`class_id`) REFERENCES `Classes`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `StudentAttendances` ADD FOREIGN KEY (`student_id`) REFERENCES `Students`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Tutors` ADD FOREIGN KEY (`id`) REFERENCES `Users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

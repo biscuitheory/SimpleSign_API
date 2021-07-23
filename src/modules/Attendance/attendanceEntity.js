@@ -1,6 +1,5 @@
 class AttendanceEntity {
-  constructor({ id, session_start, session_end, status }) {
-    this.id = id;
+  constructor({ session_start, session_end, status }) {
     this.session_start = session_start;
     this.session_end = session_end;
     this.status = status;

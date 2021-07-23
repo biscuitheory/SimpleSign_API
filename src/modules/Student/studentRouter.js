@@ -1,12 +1,17 @@
 class StudentRouter {
-  constructor({ router, studentController }) {
+  constructor({ router, auth, studentController }) {
     this.router = router;
-    this.initializeRoutes({ studentController });
+    this.initializeRoutes({ auth, studentController });
     return this.router;
   }
 
-  initializeRoutes({ studentController }) {
-    this.router.route('/students').get(studentController.getAll);
+  initializeRoutes({ auth, studentController }) {
+    this.router
+      .route('/students')
+      .get(studentController.getAllStudents)
+      .post(auth.isAdmin, studentController.registerStudent);
+
+    // this.router.route('/students/login').post(userController.loginStudents);
   }
 }
 

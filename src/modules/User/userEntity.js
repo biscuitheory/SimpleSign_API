@@ -8,6 +8,12 @@ class UserEntity {
     this.role = role;
   }
 
+  validateForm() {
+    if (!this.firstname || !this.lastname || !this.email || !this.password)
+      return false;
+    else return true;
+  }
+
   validateUser() {
     if (!this.email || !this.password) return false;
     else return true;

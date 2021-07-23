@@ -6,7 +6,10 @@ class ClassRouter {
   }
 
   initializeRoutes({ classController }) {
-    this.router.route('/classes').get(classController.getAll);
+    this.router
+      .route('/classes')
+      .get(classController.getAll)
+      .post(classController.registerClass);
   }
 }
 

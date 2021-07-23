@@ -2,14 +2,25 @@ import { createContainer, Lifetime, asClass, asValue } from 'awilix';
 import express, { Router } from 'express';
 import Server from './config/server';
 import config from './config/env';
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
+import csurf from 'csurf';
 import db from './config/database';
 
 const container = createContainer();
 const router = Router();
+const csrfMiddleware = csurf({cookie: true});
 
 container.register({
   config: asValue(config),
   db: asValue(db),
+  bcrypt: asValue(bcrypt),
+  uuidv4: asValue(uuidv4),
+  cookieParser: asValue(cookieParser),
+  jwt: asValue(jwt),
+  csrfMiddleware: asValue(csrfMiddleware),
   express: asValue(express),
   router: asValue(router),
 });

@@ -1,12 +1,18 @@
 class AttendanceRouter {
-  constructor({ router, attendanceController }) {
+  constructor({ router, auth, attendanceController }) {
     this.router = router;
-    this.initializeRoutes({ attendanceController });
+    this.initializeRoutes({ auth, attendanceController });
     return this.router;
   }
 
-  initializeRoutes({ attendanceController }) {
-    this.router.route('/attendances').get(attendanceController.getAll);
+  initializeRoutes({ auth, attendanceController }) {
+    this.router
+      .route('/attendances')
+      .get(auth.isTutor, attendanceController.getAll)
+      .post(auth.isTutor, attendanceController.registerAttendance);
+    this.router
+      .route('/student-attendances')
+      .post(attendanceController.registerStudentAttendance);
   }
 }
 
