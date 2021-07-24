@@ -13,3 +13,4 @@
 {"message":"::1 - - [23/Jul/2021:14:49:03 +0000] \"POST /users HTTP/1.1\" 400 79 \"-\" \"PostmanRuntime/7.26.8\"\n","level":"info"}
 {"level":"error"}
 {"message":"::1 - - [23/Jul/2021:14:58:56 +0000] \"POST /admin/authenticate HTTP/1.1\" 500 79 \"-\" \"PostmanRuntime/7.26.8\"\n","level":"info"}
+{"message":"::1 - - [23/Jul/2021:16:57:12 +0000] \"GET / HTTP/1.1\" 200 27 \"-\" \"PostmanRuntime/7.26.8\"\n","level":"info"}

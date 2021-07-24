@@ -22,13 +22,17 @@
     "@babel/node": "^7.14.7",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-transform-async-to-generator": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
+    "jest": "^27.0.6",
     "nodemon": "^2.0.12",
-    "prisma": "^2.27.0"
+    "prisma": "^2.27.0",
+    "supertest": "^6.1.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node app.js"
+    "start": "nodemon --exec babel-node app.js",
+    "test": "jest",
+    "test:dev": "jest --watchAll"
   },
   "repository": {
     "type": "git",
