@@ -23,7 +23,7 @@ class ClassRepository {
   async createClass(classEntity) {
     try {
       return await this.prisma.class.create({
-        data: classEntity
+        data: classEntity,
       });
     } catch {
       (e) => {
@@ -34,6 +34,14 @@ class ClassRepository {
         await prisma.$disconnect();
       };
     }
+  }
+
+  async findById(classId) {
+    return await this.prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+    });
   }
 }
 

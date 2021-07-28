@@ -22,6 +22,13 @@ class ClassService {
     const newClass = await this.classRepo.createClass(classEntity);
     return new ClassEntity(newClass);
   }
+
+  async getClassById(classId) {
+    const studentClass = await this.classRepo.findById(classId);
+    if (!studentClass)
+      throw new this.apiError(400, "The requested class doesn't exist");
+    return new ClassEntity(studentClass);
+  }
 }
 
 export default ClassService;

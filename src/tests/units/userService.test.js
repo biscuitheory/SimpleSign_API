@@ -31,7 +31,7 @@ describe('User USE-CASE : ', () => {
       }
     });
 
-    it('Should return a new instance of UserEntity with specified data', async () => {
+    it('Should return a new instance of UserEntity with specified data: ', async () => {
       const userEntity = await userService.registerUser({
         firstname: 'jun',
         lastname: 'gakusei',

@@ -52,6 +52,16 @@ class UserRepository {
     return await this.prisma.user.findUnique({ where: { id: userId } });
   }
 
+  async findByFullname(userFullname) {
+    const { firstname, lastname } = userFullname;
+    return await this.prisma.user.findUnique({
+      where: {
+        firstname,
+        lastname,
+      },
+    });
+  }
+
   compareHash = async (password, hash) =>
     await this.bcrypt.compareSync(password, hash);
 }

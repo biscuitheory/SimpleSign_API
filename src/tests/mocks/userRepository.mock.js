@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
 class mockUserRepository {
@@ -90,6 +90,14 @@ class mockUserRepository {
   async findById(userId) {
     const users = this.users.filter((user) => user.id === userId);
     return users[0];
+  }
+
+  async findByFullname(userFullname) {
+    const { firstname, lastname } = userFullname;
+    const user = this.users.filter(
+      (user) => user.firstname === firstname && user.lastname === lastname
+    );
+    return user[0];
   }
 
   compareHash = async (password, hash) =>
