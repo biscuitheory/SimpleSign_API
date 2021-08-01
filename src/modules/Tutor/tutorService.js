@@ -1,5 +1,4 @@
 import TutorEntity from './tutorEntity';
-import ClassTutorEntity from './classTutorEntity';
 class TutorService {
   constructor({ tutorRepository, ApiError }) {
     this.tutorRepo = tutorRepository;
@@ -30,19 +29,6 @@ class TutorService {
     const newTutor = await this.tutorRepo.createTutor(tutorEntity);
 
     return new TutorEntity(newTutor);
-  }
-
-  async registerClassTutor(classTutorData) {
-    const classTutorEntity = new ClassTutorEntity(classTutorData);
-    if (!classTutorEntity.validateForm())
-      throw new this.apiError(
-        400,
-        'User entity validation error: Missing parameters'
-      );
-    const newClassTutor = await this.tutorRepo.createClassTutor(
-      classTutorEntity
-    );
-    return new ClassTutorEntity(newClassTutor);
   }
 }
 

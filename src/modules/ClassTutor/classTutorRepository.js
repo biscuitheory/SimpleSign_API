@@ -1,13 +1,16 @@
-class TutorRepository {
+class ClassTutorRepository {
   constructor({ db }) {
     this.prisma = db.prisma;
   }
 
-  async findAll() {
+  async findClassesByTutorId(tutorData) {
+    const { tutor_id } = tutorData;
     try {
-      const alltutors = await this.prisma.tutor.findMany();
-      console.log({ alltutors });
-      return alltutors;
+      await this.prisma.classTutor.findMany({
+        where: {
+          tutor_id,
+        },
+      });
     } catch {
       (e) => {
         throw e;
@@ -19,9 +22,9 @@ class TutorRepository {
     }
   }
 
-  async createTutor(tutorEntity) {
+  async createClassTutor(classTutorEntity) {
     try {
-      return await this.prisma.tutor.create({ data: tutorEntity });
+      return await this.prisma.classTutor.create({ data: classTutorEntity });
     } catch {
       (e) => {
         throw e;
@@ -34,4 +37,4 @@ class TutorRepository {
   }
 }
 
-export default TutorRepository;
+export default ClassTutorRepository;

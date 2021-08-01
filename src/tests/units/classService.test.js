@@ -1,11 +1,13 @@
 import ClassService from '../../modules/Class/classService';
 import UserService from '../../modules/User/userService';
 import TutorService from '../../modules/Tutor/tutorService';
-import ClassEntity from '../../modules/Class/classEntity';
+import ClassTutorService from '../../modules/ClassTutor/classTutorService';
+import ClassTutorEntity from '../../modules/ClassTutor/classTutorEntity';
 import UserEntity from '../../modules/User/userEntity';
 import mockUserRepository from '../mocks/userRepository.mock';
 import mockClassRepository from '../mocks/classRepository.mock';
 import mockTutorRepository from '../mocks/tutorRepository.mock';
+import mockClassTutorRepository from '../mocks/classTutorRepository.mock';
 import { ApiError } from '../../helpers/error';
 import { expect, it } from '@jest/globals';
 
@@ -21,6 +23,11 @@ const userService = new UserService({
 
 const tutorService = new TutorService({
   tutorRepository: mockTutorRepository,
+  ApiError,
+});
+
+const classTutorService = new ClassTutorService({
+  classTutorRepository: mockClassTutorRepository,
   ApiError,
 });
 
@@ -75,6 +82,38 @@ describe('Assign a Class to a Tutor USE-CASE ', () => {
         expect(err.statusCode).toBe(400);
         expect(err.message).toBe('The requested tutor is not registered');
       }
+    });
+  });
+
+  describe('register classTutor use case : ', () => {
+    it('Should throw an error if classTutorData is empty or null', async () => {
+      try {
+        await classTutorService.registerClassTutor({});
+      } catch (err) {
+        expect(err.statusCode).toBe(400);
+        expect(err.message).toBe(
+          'ClassTutor entity validation error: Missing parameters'
+        );
+      }
+    });
+
+    it('Should return a new instance of classTutorEntity : ', async () => {
+      const classTutorEntity = await classTutorService.registerClassTutor({
+        class_id: '2',
+        tutor_id: '571cb226-78ac-439d-8632-484e4a5b0000',
+      });
+      expect(classTutorEntity instanceof ClassTutorEntity).toBe(true);
+    });
+
+    it('Should return an array of classTutor: ', async () => {
+      const result = [
+        { tutor_id: 'baed6531-3ea2-4f7c-8885-1220dfc2ab10', class_id: 2 },
+        { tutor_id: 'baed6531-3ea2-4f7c-8885-1220dfc2ab10', class_id: 3 },
+      ];
+      const classes = await classTutorService.getAllClassesByTutor({
+        tutor_id: 'baed6531-3ea2-4f7c-8885-1220dfc2ab10',
+      });
+      expect(classes).toEqual(result);
     });
   });
 });

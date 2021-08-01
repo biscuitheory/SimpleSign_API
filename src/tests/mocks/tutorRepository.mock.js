@@ -26,11 +26,6 @@ class mockTutorRepository {
     this.tutors.push(tutorEntity);
     return tutorEntity;
   }
-
-  async createClassTutor(classTutorEntity) {
-    this.classTutors.push(classTutorEntity);
-    return classTutorEntity;
-  }
 }
 
 export default new mockTutorRepository();
