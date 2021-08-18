@@ -6,9 +6,10 @@ class ClassTutorRouter {
   }
 
   initializeRoutes({ auth, classTutorController }) {
+    this.router.route('/kiki').get(classTutorController.getHome)
     this.router
       .route('/classtutors')
-      .get(classTutorController.getAll)
+      .get(classTutorController.getAllClassesByTutor)
       .post(auth.isAdmin, classTutorController.registerClassTutor);
     this.router
       .route('/classes/tutor:id')

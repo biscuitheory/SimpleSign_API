@@ -3,9 +3,15 @@ class ClassTutorController {
     this.classTutorService = classTutorService;
   }
 
+  getHome = async ({ res }) => {
+    res.status(200).json({ message: 'Hello World !' });
+  };
+
   getAllClassesByTutor = async ({ res, next }) => {
     try {
-      let classes = await this.classTutorService.getAllClassesByTutor(req.params.id);
+      let classes = await this.classTutorService.getAllClassesByTutor(
+        req.params.id
+      );
       res.status(200).json(classes);
     } catch (err) {
       next(err);
@@ -14,12 +20,14 @@ class ClassTutorController {
 
   registerClassTutor = async (req, res, next) => {
     try {
-      const classTutor = await this.classTutorService.registerClassTutor({ ...req.body });
+      const classTutor = await this.classTutorService.registerClassTutor({
+        ...req.body,
+      });
       res.status(201).json(classTutor);
     } catch (err) {
       next(err);
     }
-  }
+  };
 }
 
 export default ClassTutorController;

@@ -19,11 +19,11 @@ class Server {
       logger,
     });
     this.initializeApplicationRouter(routes);
-    this.app.get('/', (req, res) => {
-      res.status(200).json({ message: 'Hello World !' });
-    });
     this.app.use((err, req, res, next) => {
       handleError(err, res, logger);
+    });
+    this.app.get('/', (req, res) => {
+      res.status(200).json({ message: 'Hello World !' });
     });
   }
 
