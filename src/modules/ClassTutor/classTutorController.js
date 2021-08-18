@@ -4,7 +4,7 @@ class ClassTutorController {
   }
 
   getHome = async ({ res }) => {
-    res.status(200).json({ message: 'Hello World !' });
+    res.status(200).json({ message: 'A wild kiwi appeared !' });
   };
 
   getAllClassesByTutor = async ({ res, next }) => {
