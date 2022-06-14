@@ -64,15 +64,6 @@ describe('Assign a Class to a Tutor USE-CASE ', () => {
       });
       expect(userEntity instanceof UserEntity).toBe(true);
       expect(userEntity.id).toBe('4de37dc9-ea80-499d-847a-6bb5ea939d92');
-      // try {
-      //   await userService.getUserByFullname({
-      //     firstname: 'ryosuke',
-      //     lastname: 'gakusei',
-      //   });
-      // } catch (err) {
-      //   expect(err.statusCode).toBe(400);
-      //   expect(err.message).toBe('The requested user is not registered');
-      // }
     });
     it('Should throw an error if the Tutor is not registered ', async () => {
       const userId = '4de37dc9-ea80-499d-847a-6bb5ea939d92';

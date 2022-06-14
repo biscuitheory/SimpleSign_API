@@ -1,4 +1,4 @@
-class JwtService {
+class KwtService {
   constructor({ jwt, config }) {
     this.jwt = jwt;
     this.secret = config.jwt_secret;
@@ -13,4 +13,4 @@ class JwtService {
   }
 }
 
-export default JwtService;
+export default KwtService;

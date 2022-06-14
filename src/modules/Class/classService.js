@@ -17,7 +17,7 @@ class ClassService {
     if (!classEntity.validateClass())
       throw new this.apiError(
         400,
-        'User entity validation error: Missing parameters'
+        'Class entity validation error: Missing parameters'
       );
     const newClass = await this.classRepo.createClass(classEntity);
     return new ClassEntity(newClass);

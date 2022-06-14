@@ -9,7 +9,7 @@ class UserRouter {
     this.router
       .route('/users')
       .get(auth.isAdmin, userController.getAllUsers)
-      .post(auth.isAdmin, userController.registerUser);
+      .post(userController.registerUser);
 
     this.router
       .route('/admin/authenticate')

@@ -2,6 +2,7 @@ class UserController {
   constructor({ userService, jwtService }) {
     this.userService = userService;
     this.jwt = jwtService;
+    //this.jwtService = jwtService;
   }
 
   getAllUsers = async ({ res, next }) => {
@@ -30,7 +31,7 @@ class UserController {
         role: user.role,
       });
       res.cookie('auth-cookie', token, { expires: false, httpOnly: true });
-      res.status(201).json(user);
+      res.status(200).json(user);
     } catch (err) {
       next(err);
     }
@@ -39,9 +40,10 @@ class UserController {
   loginStudent = async (req, res, next) => {
     try {
       const student = await this.userService.loginStudent({ ...req.body });
+      //console.log("jwt", this.jwt)
       const token = await this.jwt.generateToken({ id: student.id });
       res.cookie('auth-cookie', token, { expires: false, httpOnly: true });
-      res.status(201).json(student);
+      res.status(200).json(student);
     } catch (err) {
       next(err);
     }

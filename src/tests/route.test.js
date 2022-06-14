@@ -31,13 +31,13 @@ describe('GET /kiwi', () => {
   });
 });
 
-describe('GET /classtutors', () => {
+describe('POST /classtutors', () => {
   it('should send a 401', (done) => {
     agent(app)
-      .get('/users')
+      .post('/classtutors')
       .set('auth-cookie', '56565', { expires: false, httpOnly: true })
       .send()
-      .expect(200)
+      .expect(401)
       .end((err, res) => {
         if (err) {
           return done(err);

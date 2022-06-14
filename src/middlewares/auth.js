@@ -1,5 +1,3 @@
-import UserEntity from '../modules/User/userEntity';
-
 class AuthMiddleware {
   constructor({ jwtService }) {
     this.jwt = jwtService;
@@ -12,7 +10,6 @@ class AuthMiddleware {
       if (!token) {
         return res.status(401).json('Unauthorized');
       }
-
       // Verify Token
       const decoded = await this.jwt.decodeToken(token);
 
@@ -42,9 +39,6 @@ class AuthMiddleware {
       if (!decoded) {
         return res.status(403).json('Access denied. No credentials sent!');
       }
-
-      // console.log('peggy', decoded.role);
-
       if (decoded.role !== 'admin') return res.status(401).json('Unauthorized');
 
       // if user has permissions

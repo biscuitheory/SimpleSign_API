@@ -31,8 +31,8 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node app.js",
-    "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test": "jest --verbose",
+    "test:dev": "jest --watchAll --verbose"
   },
   "repository": {
     "type": "git",

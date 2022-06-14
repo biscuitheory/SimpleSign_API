@@ -1,8 +1,9 @@
 import StudentEntity from './studentEntity';
 
 class StudentService {
-  constructor({ studentRepository }) {
+  constructor({ studentRepository, ApiError }) {
     this.studentRepo = studentRepository;
+    this.apiError = ApiError;
   }
 
   async getAll() {
